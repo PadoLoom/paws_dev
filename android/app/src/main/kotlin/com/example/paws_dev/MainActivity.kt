@@ -17,8 +17,7 @@ class MainActivity: FlutterActivity() {
                 call, result ->
             when (call.method) {
                 "stopReceiver" -> {
-                    val code = call.argument<String>("code")
-                    startTransmitter(code)
+                    stopReceiver()
                     result.success(null)
                 }
                 "startReceiver" -> {
@@ -29,14 +28,15 @@ class MainActivity: FlutterActivity() {
             }
         }
     }
-
+    private val mRxManager = EuRxManager()
     private fun startReceiver() {
-        val mRxManager = EuRxManager
-        val mRxManager = EuRxManager.getInstance()
         mRxManager.acousticSensor = AcousticSensor { letters ->
             // Communicate back to Flutter using MethodChannel if needed
         }
         mRxManager.listen()
+    }
+    private fun stopReceiver() {
+        mRxManager.finish()
     }
 }
 }
