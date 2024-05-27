@@ -64,4 +64,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'co.euphony.lib:euphony:0.8.1.2'
+}

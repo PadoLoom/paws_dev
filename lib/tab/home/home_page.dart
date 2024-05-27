@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:paws_dev/native_call/service_switch.dart';
 import 'package:paws_dev/theme/colors.dart';
 import 'package:icon_badge/icon_badge.dart';
+import 'dart:developer' as developer;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -79,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                         child: const Column(
                           children: [
                             Text(
-                              "PadoLoom",
+                              "PAWS",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -108,18 +111,12 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const Column(
                         children: [
-                          Text(
-                            "ring1",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: mainFontColor),
-                          ),
+                          ServiceSwitch(),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            "Alarm Type",
+                            "Warn Detection",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w300,
@@ -211,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                           hideZero: true,
                           top: -1,
                           onTap: () {
-                            print('test');
+                            developer.log('test');
                           },
                         ),
                       ],
