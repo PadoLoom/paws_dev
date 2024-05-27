@@ -9,17 +9,22 @@ class ServiceSwitch extends StatefulWidget {
 }
 
 class _ServiceSwitchState extends State<ServiceSwitch> {
-  bool isAct = false;
+  bool isAct = true;
   @override
   Widget build(BuildContext context) {
     return Switch(
       value: isAct,
-      onChanged: (bool isAct) {
-        if (isAct) {
-          EuphonyService().stopReceiver();
-        } else {
-          EuphonyService().startReceiver();
-        }
+      activeColor: Colors.red,
+      onChanged: (bool value) {
+        // if (value) {
+        //   EuphonyService().stopReceiver();
+        // } else {
+        //   EuphonyService().startReceiver();
+        // }
+
+        setState(() {
+          isAct = value;
+        });
       },
     );
   }

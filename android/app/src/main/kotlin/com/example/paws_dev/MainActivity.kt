@@ -39,4 +39,4 @@ class MainActivity: FlutterActivity() {
         mRxManager.finish()
     }
 }
-}
+
