@@ -16,11 +16,11 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
       value: isAct,
       activeColor: Colors.red,
       onChanged: (bool value) {
-        // if (value) {
-        //   EuphonyService().stopReceiver();
-        // } else {
-        //   EuphonyService().startReceiver();
-        // }
+        if (!value) {
+          EuphonyService().stopReceiver();
+        } else {
+          EuphonyService().startReceiver();
+        }
 
         setState(() {
           isAct = value;
