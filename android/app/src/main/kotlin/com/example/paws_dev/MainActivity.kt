@@ -1,5 +1,6 @@
 package com.example.paws_dev
 
+import android.widget.Toast
 import co.euphony.rx.AcousticSensor
 import co.euphony.rx.EuRxManager
 import co.euphony.tx.EuTxManager
@@ -30,13 +31,15 @@ class MainActivity: FlutterActivity() {
     }
     private val mRxManager = EuRxManager()
     private fun startReceiver() {
+        Toast.makeText(this, "Service Start", Toast.LENGTH_LONG).show()
         mRxManager.acousticSensor = AcousticSensor { letters ->
-            // Communicate back to Flutter using MethodChannel if needed
+            Toast.makeText(this, letters, Toast.LENGTH_LONG).show()
         }
         mRxManager.listen()
     }
     private fun stopReceiver() {
         mRxManager.finish()
+        Toast.makeText(this, "Service Terminated", Toast.LENGTH_LONG).show()
     }
 }
 
