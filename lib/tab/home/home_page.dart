@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:paws_dev/native_call/service_switch.dart';
 import 'package:paws_dev/theme/colors.dart';
 import 'package:icon_badge/icon_badge.dart';
@@ -112,9 +111,6 @@ class _HomePageState extends State<HomePage> {
                       const Column(
                         children: [
                           ServiceSwitch(),
-                          SizedBox(
-                            height: 5,
-                          ),
                           Text(
                             "Warn Detection",
                             style: TextStyle(
@@ -134,15 +130,15 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "ON",
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: mainFontColor),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
                           Text(
-                            "Service1",
+                            "ReceivedMsg",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w300,
@@ -160,12 +156,12 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "OFF",
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: mainFontColor),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
                           Text(
                             "Service2",

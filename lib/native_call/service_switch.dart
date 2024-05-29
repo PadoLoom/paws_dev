@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paws_dev/native_call/euphony_service.dart';
+import 'package:flutter/services.dart';
+import 'dart:developer' as developer;
 
 class ServiceSwitch extends StatefulWidget {
   const ServiceSwitch({super.key});
@@ -10,6 +11,31 @@ class ServiceSwitch extends StatefulWidget {
 
 class _ServiceSwitchState extends State<ServiceSwitch> {
   bool isAct = true;
+  static const platform = MethodChannel('euphony-native');
+
+  // var servicestate = "Activated";
+
+  Future<void> stopReceiver() async {
+    try {
+      await platform.invokeMethod(
+        'stopReceiver',
+      );
+      // servicestate = "Terminated";
+    } on PlatformException catch (e) {
+      developer.log("Failed to stop transmitter: ${e.message}");
+    }
+  }
+
+  Future<void> startReceiver() async {
+    try {
+      String rLetters = await platform.invokeMethod('startReceiver');
+      developer.log("Received : $rLetters");
+      setState(() {});
+    } on PlatformException catch (e) {
+      developer.log("Failed to start receiver: ${e.message}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Switch(
@@ -17,9 +43,9 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
       activeColor: Colors.red,
       onChanged: (bool value) {
         if (!value) {
-          EuphonyService().stopReceiver();
+          stopReceiver();
         } else {
-          EuphonyService().startReceiver();
+          startReceiver();
         }
 
         setState(() {
