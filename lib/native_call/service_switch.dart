@@ -13,14 +13,11 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
   bool isAct = true;
   static const platform = MethodChannel('euphony-native');
 
-  // var servicestate = "Activated";
-
   Future<void> stopReceiver() async {
     try {
       await platform.invokeMethod(
         'stopReceiver',
       );
-      // servicestate = "Terminated";
     } on PlatformException catch (e) {
       developer.log("Failed to stop transmitter: ${e.message}");
     }
@@ -28,9 +25,10 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
 
   Future<void> startReceiver() async {
     try {
-      String rLetters = await platform.invokeMethod('startReceiver');
-      developer.log("Received : $rLetters");
-      setState(() {});
+      await platform.invokeMethod(
+        'startReceiver',
+      );
+      // developer.log("Received : $rLetters");
     } on PlatformException catch (e) {
       developer.log("Failed to start receiver: ${e.message}");
     }
@@ -40,7 +38,8 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
   Widget build(BuildContext context) {
     return Switch(
       value: isAct,
-      activeColor: Colors.red,
+      focusColor: Colors.blue,
+      activeColor: Colors.blueGrey,
       onChanged: (bool value) {
         if (!value) {
           stopReceiver();

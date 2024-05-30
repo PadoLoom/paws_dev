@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.euphony.rx.AcousticSensor
 import co.euphony.rx.EuRxManager
+import co.euphony.util.EuOption
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -20,8 +21,8 @@ class MainActivity: FlutterActivity() {
     private val permissions = arrayOf<String>(Manifest.permission.RECORD_AUDIO)
 
     private val CHANNEL = "euphony-native"
-    private val mRxManager = EuRxManager()
-    private val TAG = "MAIN ACTIVITY"
+    private val mRxManager = EuRxManager.getInstance()
+    private val TAG = "NATIVE ACTIVITY"
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
@@ -32,8 +33,8 @@ class MainActivity: FlutterActivity() {
                     result.success(null)
                 }
                 "startReceiver" -> {
-                    val mRec = startReceiver()
-                    result.success(mRec)
+                    startReceiver()
+                    result.success(null)
                 }
                 else -> result.notImplemented()
             }
@@ -46,7 +47,7 @@ class MainActivity: FlutterActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions!!, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionToRecordAccepted =
             requestCode == REQUEST_RECORD_AUDIO_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED
         if (!permissionToRecordAccepted) {
@@ -60,18 +61,22 @@ class MainActivity: FlutterActivity() {
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     }
 
+    private fun startReceiver() {
+        mRxManager.setOption(EuOption.builder()
+            .modeWith(EuOption.ModeType.EUPI)
+            .encodingWith(EuOption.CodingType.BASE16)
+            .modulationWith((EuOption.ModulationType.FSK))
+            .build())
 
-    private fun startReceiver(): String {
-        var rLetters = ""
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             // Start audio recording
             Toast.makeText(this, "Service Start", Toast.LENGTH_SHORT).show()
+            Log.v(TAG, "startReceiver")
 
-            mRxManager.acousticSensor = AcousticSensor { letters ->
-//                Toast.makeText(this, letters, Toast.LENGTH_SHORT).show()
-                rLetters = letters
+            mRxManager.setOnWaveKeyUp(19000){
+                Log.d(TAG, "_________[Key Up Received]__________")
                 mRxManager.finish()
-                Log.v(TAG, "-----------Received_Letter : $rLetters-------------")
+//                Toast(this, "KeyUp Received", Toast.LENGTH_SHORT).show()
                 mRxManager.listen()
             }
             
@@ -79,10 +84,8 @@ class MainActivity: FlutterActivity() {
 
             
         } else {
-            requestAudioPermissions();
+            requestAudioPermissions()
         }
-
-        return rLetters
 
     }
     private fun stopReceiver() {
