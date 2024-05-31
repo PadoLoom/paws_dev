@@ -69,4 +69,5 @@ flutter {
 dependencies {
     implementation 'co.euphony.lib:euphony:0.8.2'
     implementation 'androidx.compose.runtime:runtime-android:1.6.7'
+    implementation 'com.google.android.material:material:1.12.0'
 }
