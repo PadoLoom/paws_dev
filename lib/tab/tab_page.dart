@@ -32,17 +32,17 @@ class _TabPageState extends State<TabPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
-              color: mainFontColor,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               Icons.settings,
               color: mainFontColor,
             ),
-            label: 'Setting',
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.info,
+              color: mainFontColor,
+            ),
+            label: 'Description',
           ),
         ],
       ),

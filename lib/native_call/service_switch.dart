@@ -38,8 +38,8 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
   Widget build(BuildContext context) {
     return Switch(
       value: isAct,
-      focusColor: Colors.blue,
-      activeColor: Colors.blueGrey,
+      focusColor: Colors.redAccent,
+      activeColor: Colors.blue,
       onChanged: (bool value) {
         if (!value) {
           stopReceiver();

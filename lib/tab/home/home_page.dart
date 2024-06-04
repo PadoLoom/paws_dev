@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:paws_dev/api/playback_control.dart';
+import 'package:paws_dev/api/type_select.dart';
 import 'package:paws_dev/native_call/service_switch.dart';
+import 'package:paws_dev/tab/home/components/main_container.dart';
 import 'package:paws_dev/theme/colors.dart';
-import 'package:icon_badge/icon_badge.dart';
 import 'dart:developer' as developer;
 
 class HomePage extends StatefulWidget {
@@ -53,124 +55,52 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.info_outline_rounded),
-                      Icon(Icons.more_vert)
-                    ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const MainBox(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 0.5,
+                    color: black.withOpacity(0.3),
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://t3.ftcdn.net/jpg/05/71/34/86/360_F_571348658_ujNgZEKzN3TUyQtfc671WuMD1zvGiJbB.jpg"),
-                                fit: BoxFit.cover)),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: (size.width - 40) * 0.6,
-                        child: const Column(
-                          children: [
-                            Text(
-                              "PAWS",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Pedestrian Accident Warning System",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: black),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Column(
+                      const Row(
                         children: [
-                          ServiceSwitch(),
                           Text(
-                            "Warn Detection",
+                            "Alert Detection",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w300,
                                 color: black),
                           ),
-                        ],
-                      ),
-                      Container(
-                        width: 0.5,
-                        height: 40,
-                        color: black.withOpacity(0.3),
-                      ),
-                      const Column(
-                        children: [
+                          SizedBox(
+                            width: 15,
+                          ),
                           Text(
                             "ON",
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: mainFontColor),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "ReceivedMsg",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                color: black),
                           ),
                         ],
                       ),
                       Container(
-                        width: 0.5,
+                        width: 1,
                         height: 40,
                         color: black.withOpacity(0.3),
                       ),
                       const Column(
-                        children: [
-                          Text(
-                            "OFF",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: mainFontColor),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Service2",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                color: black),
-                          ),
-                        ],
+                        children: [ServiceSwitch()],
                       ),
                     ],
                   )
@@ -181,8 +111,8 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
+          const Padding(
+            padding: EdgeInsets.only(left: 25, right: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -190,44 +120,28 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Row(
                       children: [
-                        const Text("Updates",
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.settings_applications,
+                          color: mainFontColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Alert Settings",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: mainFontColor,
                             )),
-                        IconBadge(
-                          icon: const Icon(Icons.notifications_none),
-                          itemCount: 1,
-                          badgeColor: Colors.red,
-                          itemColor: mainFontColor,
-                          hideZero: true,
-                          top: -1,
-                          onTap: () {
-                            developer.log('test');
-                          },
-                        ),
                       ],
                     )
                   ],
                 ),
-                // Text("Overview",
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 20,
-                //       color: mainFontColor,
-                //     )),
-                const Text("Sep 20, 2024",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: mainFontColor,
-                    )),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 5,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -238,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Container(
                         margin: const EdgeInsets.only(
-                          top: 20,
+                          top: 10,
                           left: 25,
                           right: 25,
                         ),
@@ -255,22 +169,17 @@ class _HomePageState extends State<HomePage> {
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, right: 20, left: 20),
+                              top: 10, bottom: 10, right: 20, left: 15),
                           child: Row(
                             children: [
-                              Container(
+                              const SizedBox(
                                 width: 50,
                                 height: 50,
-                                decoration: BoxDecoration(
-                                  color: arrowbgColor,
-                                  borderRadius: BorderRadius.circular(15),
-                                  // shape: BoxShape.circle
-                                ),
-                                child:
-                                    const Center(child: Icon(Icons.bluetooth)),
+                                child: Center(
+                                    child: Icon(Icons.notifications_active)),
                               ),
                               const SizedBox(
-                                width: 15,
+                                width: 5,
                               ),
                               Expanded(
                                 child: SizedBox(
@@ -282,17 +191,17 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Connect Bluetooth",
+                                          "Alert Strength",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: black,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(
-                                          height: 5,
+                                          height: 3,
                                         ),
                                         Text(
-                                          "Click and Connect your Earphone",
+                                          "Select desired strength",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -301,6 +210,7 @@ class _HomePageState extends State<HomePage> {
                                       ]),
                                 ),
                               ),
+                              const DropdownButtonExample()
                             ],
                           ),
                         ),
@@ -333,22 +243,16 @@ class _HomePageState extends State<HomePage> {
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, right: 20, left: 20),
+                              top: 10, bottom: 10, right: 20, left: 15),
                           child: Row(
                             children: [
-                              Container(
+                              const SizedBox(
                                 width: 50,
                                 height: 50,
-                                decoration: BoxDecoration(
-                                  color: arrowbgColor,
-                                  borderRadius: BorderRadius.circular(15),
-                                  // shape: BoxShape.circle
-                                ),
-                                child: const Center(
-                                    child: Icon(Icons.arrow_downward_rounded)),
+                                child: Center(child: Icon(Icons.volume_off)),
                               ),
                               const SizedBox(
-                                width: 15,
+                                width: 5,
                               ),
                               Expanded(
                                 child: SizedBox(
@@ -360,17 +264,17 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Download",
+                                          "Audio Control",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: black,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(
-                                          height: 5,
+                                          height: 3,
                                         ),
                                         Text(
-                                          "Download various types of alarm bells",
+                                          "Control audio playback",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -379,6 +283,7 @@ class _HomePageState extends State<HomePage> {
                                       ]),
                                 ),
                               ),
+                              const PlaybackControlSwitch()
                             ],
                           ),
                         ),
@@ -411,22 +316,17 @@ class _HomePageState extends State<HomePage> {
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, right: 20, left: 20),
+                              top: 10, bottom: 10, right: 20, left: 15),
                           child: Row(
                             children: [
-                              Container(
+                              const SizedBox(
                                 width: 50,
                                 height: 50,
-                                decoration: BoxDecoration(
-                                  color: arrowbgColor,
-                                  borderRadius: BorderRadius.circular(15),
-                                  // shape: BoxShape.circle
-                                ),
-                                child: const Center(
+                                child: Center(
                                     child: Icon(CupertinoIcons.quote_bubble)),
                               ),
                               const SizedBox(
-                                width: 15,
+                                width: 5,
                               ),
                               Expanded(
                                 child: SizedBox(
@@ -438,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Help",
+                                          "Voice Notification",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: black,
@@ -448,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                                           height: 5,
                                         ),
                                         Text(
-                                          "How to use PadoLoom",
+                                          "Inform hazards by voice.",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -457,6 +357,11 @@ class _HomePageState extends State<HomePage> {
                                       ]),
                                 ),
                               ),
+                              Switch(
+                                value: false,
+                                onChanged: (value) {},
+                                activeColor: Colors.blueGrey,
+                              )
                             ],
                           ),
                         ),

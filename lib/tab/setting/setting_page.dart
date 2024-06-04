@@ -44,7 +44,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(CupertinoIcons.arrow_clockwise),
+                      // Icon(CupertinoIcons.arrow_clockwise),
                       Icon(CupertinoIcons.search)
                     ],
                   ),
@@ -60,16 +60,10 @@ class _SettingPageState extends State<SettingPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Sound",
+                Text("Check Manual",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: mainFontColor,
-                    )),
-                Text("See all",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
                       color: mainFontColor,
                     )),
               ],
@@ -81,6 +75,7 @@ class _SettingPageState extends State<SettingPage> {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       padding: const EdgeInsets.only(
@@ -92,7 +87,7 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                       child: const Center(
                         child: Text(
-                          "volume",
+                          "How it Works?",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -117,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
                           ]),
                       child: Center(
                         child: Text(
-                          "notification type",
+                          "Go to Github",
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.5),
                               fontSize: 13,
@@ -142,7 +137,7 @@ class _SettingPageState extends State<SettingPage> {
                           ]),
                       child: Center(
                         child: Text(
-                          "message",
+                          "Credit",
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.5),
                               fontSize: 13,
@@ -156,7 +151,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
+            padding: EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -174,7 +169,7 @@ class _SettingPageState extends State<SettingPage> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(
-                    top: 10,
+                    top: 5,
                     left: 25,
                     right: 25,
                   ),
@@ -191,7 +186,7 @@ class _SettingPageState extends State<SettingPage> {
                       ]),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 10, bottom: 20, right: 20, left: 20),
+                        top: 10, bottom: 12, right: 20, left: 20),
                     child: Row(
                       children: [
                         const SizedBox(
@@ -219,7 +214,7 @@ class _SettingPageState extends State<SettingPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    "today",
+                                    "Recent Hazard",
                                     style: TextStyle(
                                         fontSize: 15,
                                         color: black,
@@ -238,20 +233,18 @@ class _SettingPageState extends State<SettingPage> {
                                 ]),
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "3 times",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: black),
-                                )
-                              ],
-                            ),
+                        const Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "PM 3:45",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: black),
+                              )
+                            ],
                           ),
                         )
                       ],
@@ -280,21 +273,6 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
             ]),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            margin: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-                color: buttoncolor, borderRadius: BorderRadius.circular(25)),
-            child: const Center(
-              child: Text(
-                "See Details",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
           ),
         ],
       ),
