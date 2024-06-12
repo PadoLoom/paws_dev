@@ -1,9 +1,12 @@
 package com.example.paws_dev
 
 import android.Manifest
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -20,6 +23,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
 
+    private val STRENGTH = "NORM"
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
     private val PERMISSIONS_REQUEST_CODE = 100
     private var permissionToRecordAccepted = false
@@ -37,6 +41,7 @@ class MainActivity: FlutterActivity() {
                     stopReceiver ()
                     result.success(null)
                 }
+
                 "startReceiver" -> {
                     startReceiver()
                     result.success(null)
@@ -46,61 +51,6 @@ class MainActivity: FlutterActivity() {
         }
     }
 
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        permissionToRecordAccepted =
-//            requestCode == REQUEST_RECORD_AUDIO_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED
-//        if (!permissionToRecordAccepted) {
-//            startReceiver()
-//            finish()
-//        }
-//    }
-
-
-    /* TODO : Request Notification Permissions */
-    private fun showNotification(title: String, content: String) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notificationId = 1
-        val channelId = "flutter_notification_channel"
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Notification Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = "Channel description"
-            }
-            notificationManager.createNotificationChannel(channel)
-        }
-
-//        val intent = Intent(this, MainActivity::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        }
-//        val pendingIntent: PendingIntent = PendingIntent.getActivity(this,
-//            0,
-//            intent,
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//                PendingIntent.FLAG_IMMUTABLE
-//            } else {
-//                0
-//            })
-
-        val builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(title)
-            .setContentText(content)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-
-        notificationManager.notify(notificationId, builder.build())
-    }
 
 //    private fun requestAudioPermissions() {
 //        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
@@ -135,12 +85,72 @@ class MainActivity: FlutterActivity() {
 
             if (allPermissionsGranted) {
                 // 권한이 모두 허용되었을 때
-                showNotification("Title", "Content")
+                showNotification("Title", "Content", STRENGTH)
             } else {
                 // 권한이 거부되었을 때
                 // 필요한 동작을 정의합니다.
             }
         }
+    }
+
+    private fun showNotification(title: String, content: String, option: String) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationId = 1
+        val channelId = "paws_notification_channel"
+        val channelName = "PAWS Alert"
+        val description = "Channel of PAWS Alert Notification"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId, channelName,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+
+            channel.description = description
+            channel.enableVibration(true)
+            channel.vibrationPattern = longArrayOf(100L, 200L, 300L)
+
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                PendingIntent.FLAG_IMMUTABLE
+            } else {
+                0
+            })
+
+
+        if(option == "LOW"){
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
+            notificationManager.notify(notificationId, builder.build())
+
+        } else if (option == "NORM" || option == "HIGH") {
+            val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setAutoCancel(true)
+
+            notificationManager.notify(notificationId, builder.build())
+
+        }
+
     }
 
     private fun startReceiver() {
@@ -157,7 +167,7 @@ class MainActivity: FlutterActivity() {
 
             mRxManager.setOnWaveKeyUp(19000){
                 Log.d(TAG, "----------------[Key Up Received        ]----------------")
-                showNotification("Warning", "COLLISION HAZARD!")
+                showNotification("Warning", "COLLISION HAZARD!", "NORM")
                 mRxManager.finish()
                 Log.d(TAG, "----------------[setOnWaveKeyUp Restart ]----------------")
                 mRxManager.listen()

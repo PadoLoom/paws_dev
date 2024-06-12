@@ -262,15 +262,6 @@ class _SettingPageState extends State<SettingPage> {
                 padding: const EdgeInsets.only(
                     left: 25, right: 25, top: 5, bottom: 5),
                 margin: const EdgeInsets.symmetric(horizontal: 15),
-                child: Container(
-                  width: 450,
-                  height: 400,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              "https://cdn.kihoilbo.co.kr/news/photo/202312/1063159_415620_5452.jpg"),
-                          fit: BoxFit.cover)),
-                ),
               ),
             ]),
           ),
