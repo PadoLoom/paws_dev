@@ -9,16 +9,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import co.euphony.rx.EuRxManager
-import co.euphony.util.EuOption
+import hongik.capstone.bpsk.nBPSK
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity: FlutterActivity() {
@@ -29,16 +33,21 @@ class MainActivity: FlutterActivity() {
     private var permissionToRecordAccepted = false
     private val permissions = arrayOf<String>(Manifest.permission.RECORD_AUDIO)
 
-    private val CHANNEL = "euphony-native"
+    private val CHANNEL = "bpsk-native"
     private val mRxManager = EuRxManager.getInstance()
     private val TAG = "NATIVE ACTIVITY"
+
+
+    private var isReceiving = false
+    private var bpskJob: Job? = null
+    private val nBPSK = nBPSK()
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
                 call, result ->
             when (call.method) {
                 "stopReceiver" -> {
-                    stopReceiver ()
+                    stopReceiver()
                     result.success(null)
                 }
 
@@ -153,37 +162,76 @@ class MainActivity: FlutterActivity() {
 
     }
 
+    // -- Euphony Method for Rx Start & Stop -- //
+
+//    private fun startReceiver() {
+//        mRxManager.setOption(EuOption.builder()
+//            .modeWith(EuOption.ModeType.EUPI)
+//            .encodingWith(EuOption.CodingType.BASE16)
+//            .modulationWith((EuOption.ModulationType.FSK))
+//            .build())
+//
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+//            // Start audio recording
+//            Toast.makeText(this, "Service Start", Toast.LENGTH_SHORT).show()
+//            Log.v(TAG, "startReceiver")
+//
+//            mRxManager.setOnWaveKeyUp(19000){
+//                Log.d(TAG, "----------------[Key Up Received        ]----------------")
+//                showNotification("Warning", "COLLISION HAZARD!", "NORM")
+//                mRxManager.finish()
+//                Log.d(TAG, "----------------[setOnWaveKeyUp Restart ]----------------")
+//                mRxManager.listen()
+//            }
+//            mRxManager.listen()
+//
+//
+//        } else {
+//            requestPermissions()
+//        }
+//
+//    }
+//    private fun stopReceiver() {
+//        mRxManager.finish()
+//        Toast.makeText(this, "Service Terminated", Toast.LENGTH_SHORT).show()
+//        Log.v(TAG,"stopReceiver")
+//    }
+
+
+    // -- Custom BPSK Method for Rx Start & Stop -- //
+
+
     private fun startReceiver() {
-        mRxManager.setOption(EuOption.builder()
-            .modeWith(EuOption.ModeType.EUPI)
-            .encodingWith(EuOption.CodingType.BASE16)
-            .modulationWith((EuOption.ModulationType.FSK))
-            .build())
+
+        isReceiving = true
+        val pattern = shortArrayOf(0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1) // 16bit
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            // Start audio recording
-            Toast.makeText(this, "Service Start", Toast.LENGTH_SHORT).show()
-            Log.v(TAG, "startReceiver")
+            bpskJob = CoroutineScope(Dispatchers.IO).launch {
+                val isPatternDetected = withContext(Dispatchers.IO){
+                    nBPSK.startReceiving(pattern)
+                    }
+                // 디코딩 중 문자열을 감지하면 true 반환
+                if(isPatternDetected) {
+                    showNotification("Warning", "COLLISION HAZARD!", "NORM")
+                }
 
-            mRxManager.setOnWaveKeyUp(19000){
-                Log.d(TAG, "----------------[Key Up Received        ]----------------")
-                showNotification("Warning", "COLLISION HAZARD!", "NORM")
-                mRxManager.finish()
-                Log.d(TAG, "----------------[setOnWaveKeyUp Restart ]----------------")
-                mRxManager.listen()
+
             }
-            mRxManager.listen()
 
-            
         } else {
             requestPermissions()
         }
 
     }
+
     private fun stopReceiver() {
-        mRxManager.finish()
+        isReceiving = false
+        bpskJob?.cancel() // 코루틴 취소
+        nBPSK.stopReceiving() // 디코딩 중단
         Toast.makeText(this, "Service Terminated", Toast.LENGTH_SHORT).show()
-        Log.v(TAG,"stopReceiver")
     }
+
 }
 

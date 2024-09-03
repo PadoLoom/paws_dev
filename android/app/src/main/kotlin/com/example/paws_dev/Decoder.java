@@ -1,4 +1,4 @@
-package hongik.capstone.bpsk;
+package com.example.paws_dev;
 
 import java.io.IOException;
 import java.util.Arrays;

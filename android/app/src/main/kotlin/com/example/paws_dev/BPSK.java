@@ -1,4 +1,4 @@
-package hongik.capstone.bpsk;
+package com.example.paws_dev;
 
 
 import android.annotation.SuppressLint;

@@ -1,9 +1,10 @@
-package hongik.capstone.bpsk;
+package com.example.paws_dev;
 
 import android.annotation.SuppressLint;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+
 import java.io.ByteArrayOutputStream;
 
 public class AudioCapture {

@@ -11,7 +11,7 @@ class ServiceSwitch extends StatefulWidget {
 
 class _ServiceSwitchState extends State<ServiceSwitch> {
   bool isAct = true;
-  static const platform = MethodChannel('euphony-native');
+  static const platform = MethodChannel('bpsk-native');
 
   Future<void> stopReceiver() async {
     try {
