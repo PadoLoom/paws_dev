@@ -96,8 +96,7 @@ class MainActivity: FlutterActivity() {
                 // 권한이 모두 허용되었을 때
                 showNotification("Title", "Content", STRENGTH)
             } else {
-                // 권한이 거부되었을 때
-                // 필요한 동작을 정의합니다.
+                // 권한이 거부되었을 때 필요한 동작을 정의합니다.
             }
         }
     }
@@ -164,38 +163,38 @@ class MainActivity: FlutterActivity() {
 
     // -- Euphony Method for Rx Start & Stop -- //
 
-//    private fun startReceiver() {
-//        mRxManager.setOption(EuOption.builder()
-//            .modeWith(EuOption.ModeType.EUPI)
-//            .encodingWith(EuOption.CodingType.BASE16)
-//            .modulationWith((EuOption.ModulationType.FSK))
-//            .build())
-//
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-//            // Start audio recording
-//            Toast.makeText(this, "Service Start", Toast.LENGTH_SHORT).show()
-//            Log.v(TAG, "startReceiver")
-//
-//            mRxManager.setOnWaveKeyUp(19000){
-//                Log.d(TAG, "----------------[Key Up Received        ]----------------")
-//                showNotification("Warning", "COLLISION HAZARD!", "NORM")
-//                mRxManager.finish()
-//                Log.d(TAG, "----------------[setOnWaveKeyUp Restart ]----------------")
-//                mRxManager.listen()
-//            }
-//            mRxManager.listen()
-//
-//
-//        } else {
-//            requestPermissions()
-//        }
-//
-//    }
-//    private fun stopReceiver() {
-//        mRxManager.finish()
-//        Toast.makeText(this, "Service Terminated", Toast.LENGTH_SHORT).show()
-//        Log.v(TAG,"stopReceiver")
-//    }
+    //    private fun startReceiver() {
+    //        mRxManager.setOption(EuOption.builder()
+    //            .modeWith(EuOption.ModeType.EUPI)
+    //            .encodingWith(EuOption.CodingType.BASE16)
+    //            .modulationWith((EuOption.ModulationType.FSK))
+    //            .build())
+    //
+    //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+    //            // Start audio recording
+    //            Toast.makeText(this, "Service Start", Toast.LENGTH_SHORT).show()
+    //            Log.v(TAG, "startReceiver")
+    //
+    //            mRxManager.setOnWaveKeyUp(19000){
+    //                Log.d(TAG, "----------------[Key Up Received        ]----------------")
+    //                showNotification("Warning", "COLLISION HAZARD!", "NORM")
+    //                mRxManager.finish()
+    //                Log.d(TAG, "----------------[setOnWaveKeyUp Restart ]----------------")
+    //                mRxManager.listen()
+    //            }
+    //            mRxManager.listen()
+    //
+    //
+    //        } else {
+    //            requestPermissions()
+    //        }
+    //
+    //    }
+    //    private fun stopReceiver() {
+    //        mRxManager.finish()
+    //        Toast.makeText(this, "Service Terminated", Toast.LENGTH_SHORT).show()
+    //        Log.v(TAG,"stopReceiver")
+    //    }
 
 
     // -- Custom BPSK Method for Rx Start & Stop -- //
@@ -205,7 +204,6 @@ class MainActivity: FlutterActivity() {
 
         isReceiving = true
         val pattern = shortArrayOf(0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1) // 16bit
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             bpskJob = CoroutineScope(Dispatchers.IO).launch {
@@ -217,9 +215,7 @@ class MainActivity: FlutterActivity() {
                     showNotification("Warning", "COLLISION HAZARD!", "NORM")
                 }
 
-
             }
-
         } else {
             requestPermissions()
         }

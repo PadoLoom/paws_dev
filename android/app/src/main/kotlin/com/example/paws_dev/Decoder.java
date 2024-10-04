@@ -3,8 +3,6 @@ package com.example.paws_dev;
 import java.io.IOException;
 import java.util.Arrays;
 
-// import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class Decoder {
     public static int[] decodeAudioData(byte[] audioBytes, double carrierFreq, int sampleRate, double bitDuration) throws IOException {
         int bytesPerSample = 2;
